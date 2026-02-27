@@ -1,6 +1,5 @@
 #pragma once
-#include <mutex>
-#include <optional>
+#include <openai/service/Embeddings.h>
 #include <openai/service/Images.h>
 #include <openai/service/Models.h>
 
@@ -23,14 +22,17 @@ public:
   OpenAI();
   explicit OpenAI(const OpenAIClientOpts& opts);
 
-  Images& images();
-  Models& models();
+  const Embeddings& embeddings();
+  const Images& images();
+  const Models& models();
 
 private:
+  std::once_flag f_embeddings;
+  std::unique_ptr<Embeddings> embeddings_;
   std::once_flag f_images;
-  std::optional<Images> v_images;
+  std::unique_ptr<Images> images_;
   std::once_flag f_models;
-  std::optional<Models> v_models;
+  std::unique_ptr<Models> models_;
 };
 
 }

@@ -5,10 +5,21 @@
 namespace openai
 {
 
-class Models : public SyncAPIService
+class ModelsWithRawResponse : public SyncAPIService
 {
 public:
-  explicit Models(SyncAPIClient& client) : SyncAPIService(client) {}
+  explicit ModelsWithRawResponse(SyncAPIClient& client) : SyncAPIService(client) {}
+
+  httplib::Response retrieve(const std::string& model) const;
+  httplib::Response list() const;
+};
+
+class Models : public ModelsWithRawResponse
+{
+public:
+  explicit Models(SyncAPIClient& client) : ModelsWithRawResponse(client) {}
+
+  const ModelsWithRawResponse& with_raw_response() const;
 
   Model retrieve(const std::string& model) const;
   std::vector<Model> list() const;

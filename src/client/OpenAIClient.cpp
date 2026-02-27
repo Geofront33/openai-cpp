@@ -51,18 +51,25 @@ OpenAI::OpenAI(const OpenAIClientOpts& opts) {
   client = std::make_unique<httplib::SSLClient>(base_url.host, base_url.port);
 }
 
-Images& OpenAI::images() {
+const Embeddings& OpenAI::embeddings() {
   std::call_once(f_images, [this] {
-    v_images.emplace(*this);
+    embeddings_ = std::make_unique<Embeddings>(*this);
   });
-  return v_images.value();
+  return *embeddings_;
 }
 
-Models& OpenAI::models() {
-  std::call_once(f_models, [this] {
-    v_models.emplace(*this);
+const Images& OpenAI::images() {
+  std::call_once(f_images, [this] {
+    images_ = std::make_unique<Images>(*this);
   });
-  return v_models.value();
+  return *images_;
+}
+
+const Models& OpenAI::models() {
+  std::call_once(f_models, [this] {
+    models_ = std::make_unique<Models>(*this);
+  });
+  return *models_;
 }
 
 }

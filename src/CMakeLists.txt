@@ -1,6 +1,7 @@
 include(GNUInstallDirs)
 
 add_library(openai-cpp STATIC
+    service/Embeddings.cpp
     service/Images.cpp
     service/Models.cpp
     client/APIClient.cpp

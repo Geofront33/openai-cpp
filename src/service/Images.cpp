@@ -3,12 +3,19 @@
 namespace openai
 {
 
-ImagesResponse Images::generate(const ImagesGenerateOpts& opts) const {
-  auto res = Post("/images/generations", opts.validate_and_serialize());
-  return nlohmann::json::parse(res.body).get<ImagesResponse>();
+httplib::Response ImagesWithRawResponse::generate(const ImagesGenerateOpts& opts) const {
+  return Post("/images/generations", opts.validate_and_serialize());
 }
 
-std::string Images::ImagesGenerateOpts::validate_and_serialize() const {
+const ImagesWithRawResponse& Images::with_raw_response() const {
+  return static_cast<const ImagesWithRawResponse&>(*this);
+}
+
+std::vector<Image> Images::generate(const ImagesGenerateOpts& opts) const {
+  return nlohmann::json::parse(with_raw_response().generate(opts).body)["data"].get<std::vector<Image>>();
+}
+
+std::string ImagesWithRawResponse::ImagesGenerateOpts::validate_and_serialize() const {
   nlohmann::json j;
 
   j["prompt"] = prompt;

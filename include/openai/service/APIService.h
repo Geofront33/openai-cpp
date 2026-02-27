@@ -6,7 +6,7 @@ namespace openai
 
 class SyncAPIService
 {
-  SyncAPIClient& client;
+  const SyncAPIClient& client;
 
 public:
   explicit SyncAPIService(SyncAPIClient& client) : client(client) {}

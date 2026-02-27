@@ -1,17 +1,17 @@
 #pragma once
 #include <openai/service/APIService.h>
-#include <openai/types/ImagesResponse.h>
+#include <openai/types/Image.h>
 
 namespace openai
 {
 
-class Images : public SyncAPIService
+class ImagesWithRawResponse : public SyncAPIService
 {
 public:
-  explicit Images(SyncAPIClient& client) : SyncAPIService(client) {}
+  explicit ImagesWithRawResponse(SyncAPIClient& client) : SyncAPIService(client) {}
 
   struct ImagesGenerateOpts;
-  ImagesResponse generate(const ImagesGenerateOpts& opts) const;
+  httplib::Response generate(const ImagesGenerateOpts& opts) const;
 
   struct ImagesGenerateOpts
   {
@@ -28,6 +28,16 @@ public:
 
     std::string validate_and_serialize() const;
   };
+};
+
+class Images : public ImagesWithRawResponse
+{
+public:
+  explicit Images(SyncAPIClient& client) : ImagesWithRawResponse(client) {}
+
+  const ImagesWithRawResponse& with_raw_response() const;
+
+  std::vector<Image> generate(const ImagesGenerateOpts& opts) const;
 };
 
 }
