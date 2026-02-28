@@ -11,6 +11,10 @@ add_library(openai-cpp STATIC
 
 set_target_properties(openai-cpp PROPERTIES OUTPUT_NAME openai)
 
+if (WIN32)
+  target_link_libraries(openai-cpp PUBLIC ws2_32 crypt32)
+endif()
+
 find_package(OpenSSL REQUIRED)
 # Enable HTTPS support in yhirose/cpp-httplib (must be defined before including httplib.h)
 target_compile_definitions(openai-cpp PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)

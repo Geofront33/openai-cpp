@@ -1,7 +1,4 @@
-#include <fstream>
-#include <iostream>
 #include <openai.h>
-#include <openai/utils/utils.h>
 
 int main() {
   openai::OpenAI client;
