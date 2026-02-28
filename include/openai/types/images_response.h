@@ -1,6 +1,5 @@
 #pragma once
 #include <openai/types/image.h>
-#include <openai/utils/utils.h>
 
 namespace openai
 {
@@ -36,32 +35,9 @@ struct ImagesResponse
   std::optional<Usage> usage;
 };
 
-inline void from_json(const nlohmann::json& j, ImagesResponse::Usage::UsageInputTokensDetails& x) {
-  j.at("image_tokens").get_to(x.image_tokens);
-  j.at("text_tokens").get_to(x.text_tokens);
-}
-
-inline void from_json(const nlohmann::json& j, ImagesResponse::Usage::UsageOutputTokensDetails& x) {
-  j.at("image_tokens").get_to(x.image_tokens);
-  j.at("text_tokens").get_to(x.text_tokens);
-}
-
-inline void from_json(const nlohmann::json& j, ImagesResponse::Usage& x) {
-  j.at("input_tokens").get_to(x.input_tokens);
-  j.at("input_tokens_details").get_to(x.input_tokens_details);
-  j.at("output_tokens").get_to(x.output_tokens);
-  j.at("total_tokens").get_to(x.total_tokens);
-  x.output_tokens_details = get_opt<ImagesResponse::Usage::UsageOutputTokensDetails>(j, "output_tokens_details");
-}
-
-inline void from_json(const nlohmann::json& j, ImagesResponse& x) {
-  j.at("created").get_to(x.created);
-  x.background = get_opt<std::string>(j, "background");
-  x.data = j.value("data", std::vector<Image>{});
-  x.output_format = get_opt<std::string>(j, "output_format");
-  x.quality = get_opt<std::string>(j, "quality");
-  x.size = get_opt<std::string>(j, "size");
-  x.usage = get_opt<ImagesResponse::Usage>(j, "usage");
-}
+void from_json(const nlohmann::json& j, ImagesResponse::Usage::UsageInputTokensDetails& x);
+void from_json(const nlohmann::json& j, ImagesResponse::Usage::UsageOutputTokensDetails& x);
+void from_json(const nlohmann::json& j, ImagesResponse::Usage& x);
+void from_json(const nlohmann::json& j, ImagesResponse& x);
 
 }

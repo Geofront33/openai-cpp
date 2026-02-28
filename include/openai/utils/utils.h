@@ -1,4 +1,5 @@
 #pragma once
+#include <sstream>
 #include <openai/third_party/nlohmann/json.h>
 
 namespace openai
@@ -38,12 +39,27 @@ inline std::vector<unsigned char> b64decode(const std::string& encoded) {
   return decoded;
 }
 
-template <class T>
-std::optional<T> get_opt(const nlohmann::json& j, const std::string_view key) {
+template<typename T>
+void get_opt(const nlohmann::json& j, const std::string_view key, std::optional<T>& x) {
   const auto it = j.find(std::string(key));
-  if (it == j.end() || it->is_null())
-    return std::nullopt;
-  return it->get<T>();
+  if (it == j.end() || it->is_null()) {
+    x = std::nullopt;
+    return;
+  }
+  x = it->get<T>();
+}
+
+template<typename T>
+std::string vec2str(const std::vector<T>& v) {
+  std::ostringstream oss;
+  oss << "[";
+  auto sep = "";
+  for (const auto& i : v) {
+    oss << sep << i;
+    sep = ", ";
+  }
+  oss << "]";
+  return oss.str();
 }
 
 }

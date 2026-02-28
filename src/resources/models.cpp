@@ -1,4 +1,4 @@
-#include <openai/resources/Models.h>
+#include <openai/resources/models.h>
 #include <openai/utils/OpenAIError.h>
 
 namespace openai

@@ -11,18 +11,9 @@ struct Model
   std::string object;
   std::string owned_by;
 
-  std::string to_string() const {
-    std::ostringstream oss;
-    oss << "Model(id='" << id << "', created=" << created << ", object='" << object << "', owned_by=" << owned_by << ")";
-    return oss.str();
-  }
+  std::string to_string() const;
 };
 
-inline void from_json(const nlohmann::json& j, Model& model) {
-  j["id"].get_to(model.id);
-  j["created"].get_to(model.created);
-  j["object"].get_to(model.object);
-  j["owned_by"].get_to(model.owned_by);
-}
+void from_json(const nlohmann::json& j, Model& model);
 
 }

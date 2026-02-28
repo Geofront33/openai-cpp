@@ -1,7 +1,8 @@
 #pragma once
-#include <openai/resources/Embeddings.h>
-#include <openai/resources/Images.h>
-#include <openai/resources/Models.h>
+#include <openai/resources/embeddings.h>
+#include <openai/resources/images.h>
+#include <openai/resources/models.h>
+#include <openai/resources/moderations.h>
 
 namespace openai
 {
@@ -24,6 +25,7 @@ public:
 
   const Embeddings& embeddings();
   const Images& images();
+  const Moderations& moderations();
   const Models& models();
 
 private:
@@ -31,6 +33,8 @@ private:
   std::unique_ptr<Embeddings> embeddings_;
   std::once_flag f_images;
   std::unique_ptr<Images> images_;
+  std::once_flag f_moderations;
+  std::unique_ptr<Moderations> moderations_;
   std::once_flag f_models;
   std::unique_ptr<Models> models_;
 };

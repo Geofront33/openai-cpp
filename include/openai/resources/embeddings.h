@@ -1,14 +1,14 @@
 #pragma once
-#include <openai/resources/APIService.h>
-#include <openai/types/create_embedding_response.h>
+#include <openai/resources/api_resource.h>
+#include <openai/types/embedding_create_response.h>
 
 namespace openai
 {
 
-class EmbeddingsWithRawResponse : public SyncAPIService
+class EmbeddingsWithRawResponse : public SyncAPIResource
 {
 public:
-  explicit EmbeddingsWithRawResponse(SyncAPIClient& client) : SyncAPIService(client) {}
+  explicit EmbeddingsWithRawResponse(SyncAPIClient& client) : SyncAPIResource(client) {}
 
   struct EmbeddingsCreateOpts;
   httplib::Response create(const EmbeddingsCreateOpts& opts) const;
@@ -31,7 +31,7 @@ public:
 
   const EmbeddingsWithRawResponse& with_raw_response() const;
 
-  CreateEmbeddingResponse create(const EmbeddingsCreateOpts& opts) const;
+  EmbeddingCreateResponse create(const EmbeddingsCreateOpts& opts) const;
 };
 
 }

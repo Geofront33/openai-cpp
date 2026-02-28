@@ -1,14 +1,14 @@
 #pragma once
-#include <openai/resources/APIService.h>
+#include <openai/resources/api_resource.h>
 #include <openai/types/images_response.h>
 
 namespace openai
 {
 
-class ImagesWithRawResponse : public SyncAPIService
+class ImagesWithRawResponse : public SyncAPIResource
 {
 public:
-  explicit ImagesWithRawResponse(SyncAPIClient& client) : SyncAPIService(client) {}
+  explicit ImagesWithRawResponse(SyncAPIClient& client) : SyncAPIResource(client) {}
 
   struct ImagesGenerateOpts;
   httplib::Response generate(const ImagesGenerateOpts& opts) const;

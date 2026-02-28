@@ -1,4 +1,4 @@
-#include <openai/resources/Images.h>
+#include <openai/resources/images.h>
 
 namespace openai
 {

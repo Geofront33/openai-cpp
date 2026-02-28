@@ -4,12 +4,12 @@
 namespace openai
 {
 
-class SyncAPIService
+class SyncAPIResource
 {
   const SyncAPIClient& client;
 
 public:
-  explicit SyncAPIService(SyncAPIClient& client) : client(client) {}
+  explicit SyncAPIResource(SyncAPIClient& client) : client(client) {}
 
   httplib::Response Get(const std::string& path) const {
     return client.Get(path);

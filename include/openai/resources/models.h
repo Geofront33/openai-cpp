@@ -1,14 +1,14 @@
 #pragma once
-#include <openai/resources/APIService.h>
+#include <openai/resources/api_resource.h>
 #include <openai/types/model.h>
 
 namespace openai
 {
 
-class ModelsWithRawResponse : public SyncAPIService
+class ModelsWithRawResponse : public SyncAPIResource
 {
 public:
-  explicit ModelsWithRawResponse(SyncAPIClient& client) : SyncAPIService(client) {}
+  explicit ModelsWithRawResponse(SyncAPIClient& client) : SyncAPIResource(client) {}
 
   httplib::Response retrieve(const std::string& model) const;
   httplib::Response list() const;

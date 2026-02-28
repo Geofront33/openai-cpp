@@ -65,6 +65,13 @@ const Images& OpenAI::images() {
   return *images_;
 }
 
+const Moderations& OpenAI::moderations() {
+  std::call_once(f_moderations, [this] {
+    moderations_ = std::make_unique<Moderations>(*this);
+  });
+  return *moderations_;
+}
+
 const Models& OpenAI::models() {
   std::call_once(f_models, [this] {
     models_ = std::make_unique<Models>(*this);

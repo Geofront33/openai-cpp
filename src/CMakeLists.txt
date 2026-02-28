@@ -1,12 +1,22 @@
 include(GNUInstallDirs)
 
 add_library(openai-cpp STATIC
-    resources/Embeddings.cpp
-    resources/Images.cpp
-    resources/Models.cpp
     client/APIClient.cpp
     client/BaseClient.cpp
     client/OpenAIClient.cpp
+
+    resources/embeddings.cpp
+    resources/images.cpp
+    resources/models.cpp
+    resources/moderations.cpp
+
+    types/embedding.cpp
+    types/embedding_create_response.cpp
+    types/image.cpp
+    types/images_response.cpp
+    types/model.cpp
+    types/moderation.cpp
+    types/moderation_create_response.cpp
 )
 
 set_target_properties(openai-cpp PROPERTIES OUTPUT_NAME openai)

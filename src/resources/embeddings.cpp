@@ -1,4 +1,4 @@
-#include <openai/resources/Embeddings.h>
+#include <openai/resources/embeddings.h>
 #include <openai/third_party/nlohmann/json.h>
 
 namespace openai
@@ -12,8 +12,8 @@ const EmbeddingsWithRawResponse& Embeddings::with_raw_response() const {
   return static_cast<const EmbeddingsWithRawResponse&>(*this);
 }
 
-CreateEmbeddingResponse Embeddings::create(const EmbeddingsCreateOpts& opts) const {
-  return nlohmann::json::parse(with_raw_response().create(opts).body).get<CreateEmbeddingResponse>();
+EmbeddingCreateResponse Embeddings::create(const EmbeddingsCreateOpts& opts) const {
+  return nlohmann::json::parse(with_raw_response().create(opts).body).get<EmbeddingCreateResponse>();
 }
 
 std::string EmbeddingsWithRawResponse::EmbeddingsCreateOpts::validate_and_serialize() const {
