@@ -1,6 +1,6 @@
 #pragma once
-#include <openai/service/APIService.h>
-#include <openai/types/Embedding.h>
+#include <openai/resources/APIService.h>
+#include <openai/types/create_embedding_response.h>
 
 namespace openai
 {
@@ -31,7 +31,7 @@ public:
 
   const EmbeddingsWithRawResponse& with_raw_response() const;
 
-  std::vector<Embedding> create(const EmbeddingsCreateOpts& opts) const;
+  CreateEmbeddingResponse create(const EmbeddingsCreateOpts& opts) const;
 };
 
 }

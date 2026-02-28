@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <openai/third_party/nlohmann/json.h>
 
 namespace openai
 {
@@ -36,6 +36,14 @@ inline std::vector<unsigned char> b64decode(const std::string& encoded) {
   }
 
   return decoded;
+}
+
+template <class T>
+std::optional<T> get_opt(const nlohmann::json& j, const std::string_view key) {
+  const auto it = j.find(std::string(key));
+  if (it == j.end() || it->is_null())
+    return std::nullopt;
+  return it->get<T>();
 }
 
 }

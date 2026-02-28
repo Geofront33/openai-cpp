@@ -1,6 +1,6 @@
 #pragma once
-#include <openai/service/APIService.h>
-#include <openai/types/Model.h>
+#include <openai/resources/APIService.h>
+#include <openai/types/model.h>
 
 namespace openai
 {

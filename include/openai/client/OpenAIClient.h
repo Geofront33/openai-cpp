@@ -1,7 +1,7 @@
 #pragma once
-#include <openai/service/Embeddings.h>
-#include <openai/service/Images.h>
-#include <openai/service/Models.h>
+#include <openai/resources/Embeddings.h>
+#include <openai/resources/Images.h>
+#include <openai/resources/Models.h>
 
 namespace openai
 {

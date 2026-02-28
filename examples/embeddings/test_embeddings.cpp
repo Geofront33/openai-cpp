@@ -9,9 +9,7 @@ int main() {
     .model = "text-embedding-ada-002",
     .encoding_format = "float",
   });
-  for (const auto& i : res) {
-    std::cout << i.to_string() << std::endl;
-  }
+  std::cout << res.data[0].to_string() << std::endl;
 
   return 0;
 }

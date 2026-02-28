@@ -1,4 +1,4 @@
-#include <openai/service/Images.h>
+#include <openai/resources/Images.h>
 
 namespace openai
 {
@@ -11,8 +11,8 @@ const ImagesWithRawResponse& Images::with_raw_response() const {
   return static_cast<const ImagesWithRawResponse&>(*this);
 }
 
-std::vector<Image> Images::generate(const ImagesGenerateOpts& opts) const {
-  return nlohmann::json::parse(with_raw_response().generate(opts).body)["data"].get<std::vector<Image>>();
+ImagesResponse Images::generate(const ImagesGenerateOpts& opts) const {
+  return nlohmann::json::parse(with_raw_response().generate(opts).body).get<ImagesResponse>();
 }
 
 std::string ImagesWithRawResponse::ImagesGenerateOpts::validate_and_serialize() const {

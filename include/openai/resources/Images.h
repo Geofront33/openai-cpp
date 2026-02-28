@@ -1,6 +1,6 @@
 #pragma once
-#include <openai/service/APIService.h>
-#include <openai/types/Image.h>
+#include <openai/resources/APIService.h>
+#include <openai/types/images_response.h>
 
 namespace openai
 {
@@ -37,7 +37,7 @@ public:
 
   const ImagesWithRawResponse& with_raw_response() const;
 
-  std::vector<Image> generate(const ImagesGenerateOpts& opts) const;
+  ImagesResponse generate(const ImagesGenerateOpts& opts) const;
 };
 
 }
