@@ -3,19 +3,23 @@
 namespace openai
 {
 
-httplib::Response ModerationsWithRawResponse::create(const ModerationsCreateOpts& opts) const {
-  return Post("/moderations", opts.validate_and_serialize());
-}
-
-const ModerationsWithRawResponse& Moderations::with_raw_response() const {
-  return static_cast<const ModerationsWithRawResponse&>(*this);
+ModerationsWithRawResponse Moderations::with_raw_response() const {
+  return ModerationsWithRawResponse(*this);
 }
 
 ModerationCreateResponse Moderations::create(const ModerationsCreateOpts& opts) const {
-  return nlohmann::json::parse(with_raw_response().create(opts).body).get<ModerationCreateResponse>();
+  return nlohmann::json::parse(create_raw(opts).body).get<ModerationCreateResponse>();
 }
 
-std::string ModerationsWithRawResponse::ModerationsCreateOpts::validate_and_serialize() const {
+httplib::Response Moderations::create_raw(const ModerationsCreateOpts& opts) const {
+  return Post("/moderations", opts.validate_and_serialize());
+}
+
+httplib::Response ModerationsWithRawResponse::create(const ModerationsCreateOpts& opts) const {
+  return create_raw(opts);
+}
+
+std::string Moderations::ModerationsCreateOpts::validate_and_serialize() const {
   nlohmann::json j;
 
   assert(!input.empty());

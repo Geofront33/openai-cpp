@@ -9,7 +9,7 @@ httplib::Headers BaseClient::build_headers(const FinalRequestOptions& options, i
 }
 
 std::string BaseClient::prepare_url(const std::string& url) const {
-  if (url[0] == '/') {
+  if (url.empty() || url[0] == '/') {
     return base_url.path + url;
   }
   return url;

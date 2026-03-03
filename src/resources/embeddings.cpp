@@ -4,19 +4,23 @@
 namespace openai
 {
 
-httplib::Response EmbeddingsWithRawResponse::create(const EmbeddingsCreateOpts& opts) const {
-  return Post("/embeddings", opts.validate_and_serialize());
-}
-
-const EmbeddingsWithRawResponse& Embeddings::with_raw_response() const {
-  return static_cast<const EmbeddingsWithRawResponse&>(*this);
+EmbeddingsWithRawResponse Embeddings::with_raw_response() const {
+  return EmbeddingsWithRawResponse(*this);
 }
 
 EmbeddingCreateResponse Embeddings::create(const EmbeddingsCreateOpts& opts) const {
-  return nlohmann::json::parse(with_raw_response().create(opts).body).get<EmbeddingCreateResponse>();
+  return nlohmann::json::parse(create_raw(opts).body).get<EmbeddingCreateResponse>();
 }
 
-std::string EmbeddingsWithRawResponse::EmbeddingsCreateOpts::validate_and_serialize() const {
+httplib::Response Embeddings::create_raw(const EmbeddingsCreateOpts& opts) const {
+  return Post("/embeddings", opts.validate_and_serialize());
+}
+
+httplib::Response EmbeddingsWithRawResponse::create(const EmbeddingsCreateOpts& opts) const {
+  return create_raw(opts);
+}
+
+std::string Embeddings::EmbeddingsCreateOpts::validate_and_serialize() const {
   nlohmann::json j;
 
   assert(!input.empty());

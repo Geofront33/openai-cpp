@@ -11,7 +11,7 @@ std::string Moderation::Categories::to_string() const {
   oss << ", hate=" << hate;
   oss << ", hate/threatening=" << hate_threatening;
   if (illicit) oss << ", illicit=" << *illicit;
-  if (illicit_violent) oss << ", illicit/violent=" << *illicit;
+  if (illicit_violent) oss << ", illicit/violent=" << *illicit_violent;
   oss << ", self-harm=" << self_harm;
   oss << ", self-harm/instructions=" << self_harm_instructions;
   oss << ", self-harm/intent=" << self_harm_intent;

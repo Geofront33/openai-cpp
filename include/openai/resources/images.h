@@ -5,39 +5,43 @@
 namespace openai
 {
 
-class ImagesWithRawResponse : public SyncAPIResource
+class Images;
+class ImagesWithRawResponse;
+
+class Images : SyncAPIResource
 {
 public:
-  explicit ImagesWithRawResponse(SyncAPIClient& client) : SyncAPIResource(client) {}
+  explicit Images(const SyncAPIClient& client) : SyncAPIResource(client) {}
+
+  ImagesWithRawResponse with_raw_response() const;
 
   struct ImagesGenerateOpts;
-  httplib::Response generate(const ImagesGenerateOpts& opts) const;
-
-  struct ImagesGenerateOpts
-  {
-    std::string prompt;
-    std::string background;
-    std::string model;
-    std::string moderation;
-    int n;
-    std::string output_format;
-    std::string quality;
-    std::string response_format;
-    std::string size;
-    std::string style;
-
-    std::string validate_and_serialize() const;
-  };
+  ImagesResponse generate(const ImagesGenerateOpts& opts) const;
+  httplib::Response generate_raw(const ImagesGenerateOpts& opts) const;
 };
 
-class Images : public ImagesWithRawResponse
+class ImagesWithRawResponse : Images
 {
 public:
-  explicit Images(SyncAPIClient& client) : ImagesWithRawResponse(client) {}
+  explicit ImagesWithRawResponse(const Images& images) : Images(images) {}
 
-  const ImagesWithRawResponse& with_raw_response() const;
+  httplib::Response generate(const ImagesGenerateOpts& opts) const;
+};
 
-  ImagesResponse generate(const ImagesGenerateOpts& opts) const;
+struct Images::ImagesGenerateOpts
+{
+  std::string prompt;
+  std::string background;
+  std::string model;
+  std::string moderation;
+  int n;
+  std::string output_format;
+  std::string quality;
+  std::string response_format;
+  std::string size;
+  std::string style;
+
+  std::string validate_and_serialize() const;
 };
 
 }

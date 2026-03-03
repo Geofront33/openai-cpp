@@ -52,7 +52,7 @@ OpenAI::OpenAI(const OpenAIClientOpts& opts) {
 }
 
 const Embeddings& OpenAI::embeddings() {
-  std::call_once(f_images, [this] {
+  std::call_once(f_embeddings, [this] {
     embeddings_ = std::make_unique<Embeddings>(*this);
   });
   return *embeddings_;
@@ -75,6 +75,38 @@ const Moderations& OpenAI::moderations() {
 const Models& OpenAI::models() {
   std::call_once(f_models, [this] {
     models_ = std::make_unique<Models>(*this);
+  });
+  return *models_;
+}
+
+OpenAIWithRawResponse OpenAI::with_raw_response() {
+  return OpenAIWithRawResponse(*this);
+}
+
+const EmbeddingsWithRawResponse& OpenAIWithRawResponse::embeddings() {
+  std::call_once(f_embeddings, [this] {
+    embeddings_ = std::make_unique<EmbeddingsWithRawResponse>(client.embeddings());
+  });
+  return *embeddings_;
+}
+
+const ImagesWithRawResponse& OpenAIWithRawResponse::images() {
+  std::call_once(f_images, [this] {
+    images_ = std::make_unique<ImagesWithRawResponse>(client.images());
+  });
+  return *images_;
+}
+
+const ModerationsWithRawResponse& OpenAIWithRawResponse::moderations() {
+  std::call_once(f_moderations, [this] {
+    moderations_ = std::make_unique<ModerationsWithRawResponse>(client.moderations());
+  });
+  return *moderations_;
+}
+
+const ModelsWithRawResponse& OpenAIWithRawResponse::models() {
+  std::call_once(f_models, [this] {
+    models_ = std::make_unique<ModelsWithRawResponse>(client.models());
   });
   return *models_;
 }

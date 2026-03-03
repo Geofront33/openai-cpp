@@ -5,33 +5,37 @@
 namespace openai
 {
 
-class EmbeddingsWithRawResponse : public SyncAPIResource
+class Embeddings;
+class EmbeddingsWithRawResponse;
+
+class Embeddings : SyncAPIResource
 {
 public:
-  explicit EmbeddingsWithRawResponse(SyncAPIClient& client) : SyncAPIResource(client) {}
+  explicit Embeddings(const SyncAPIClient& client) : SyncAPIResource(client) {}
+
+  EmbeddingsWithRawResponse with_raw_response() const;
 
   struct EmbeddingsCreateOpts;
-  httplib::Response create(const EmbeddingsCreateOpts& opts) const;
-
-  struct EmbeddingsCreateOpts
-  {
-    std::string input;
-    std::string model;
-    int dimensions;
-    std::string encoding_format;
-
-    std::string validate_and_serialize() const;
-  };
+  EmbeddingCreateResponse create(const EmbeddingsCreateOpts& opts) const;
+  httplib::Response create_raw(const EmbeddingsCreateOpts& opts) const;
 };
 
-class Embeddings : public EmbeddingsWithRawResponse
+class EmbeddingsWithRawResponse : Embeddings
 {
 public:
-  explicit Embeddings(SyncAPIClient& client) : EmbeddingsWithRawResponse(client) {}
+  explicit EmbeddingsWithRawResponse(const Embeddings& client) : Embeddings(client) {}
 
-  const EmbeddingsWithRawResponse& with_raw_response() const;
+  httplib::Response create(const EmbeddingsCreateOpts& opts) const;
+};
 
-  EmbeddingCreateResponse create(const EmbeddingsCreateOpts& opts) const;
+struct Embeddings::EmbeddingsCreateOpts
+{
+  std::string input;
+  std::string model;
+  int dimensions;
+  std::string encoding_format;
+
+  std::string validate_and_serialize() const;
 };
 
 }

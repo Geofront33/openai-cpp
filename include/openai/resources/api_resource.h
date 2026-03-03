@@ -9,7 +9,7 @@ class SyncAPIResource
   const SyncAPIClient& client;
 
 public:
-  explicit SyncAPIResource(SyncAPIClient& client) : client(client) {}
+  explicit SyncAPIResource(const SyncAPIClient& client) : client(client) {}
 
   httplib::Response Get(const std::string& path) const {
     return client.Get(path);
@@ -29,11 +29,6 @@ public:
   httplib::Response GetAPIList(const std::string& path) const {
     return client.GetAPIList(path);
   }
-};
-
-class AsyncAPIService
-{
-
 };
 
 }

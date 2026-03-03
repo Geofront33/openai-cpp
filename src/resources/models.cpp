@@ -4,27 +4,35 @@
 namespace openai
 {
 
-httplib::Response ModelsWithRawResponse::retrieve(const std::string& model) const {
+ModelsWithRawResponse Models::with_raw_response() const {
+  return ModelsWithRawResponse(*this);
+}
+
+Model Models::retrieve(const std::string& model) const {
+  return nlohmann::json::parse(retrieve_raw(model).body).get<Model>();
+}
+
+httplib::Response Models::retrieve_raw(const std::string& model) const {
   if (model.empty()) {
     throw OpenAIError("Expected a non-empty value for `model`");
   }
   return Get("/models/" + model);
 }
 
-httplib::Response ModelsWithRawResponse::list() const {
+std::vector<Model> Models::list() const {
+  return nlohmann::json::parse(list_raw().body)["data"].get<std::vector<Model>>();
+}
+
+httplib::Response Models::list_raw() const {
   return GetAPIList("/models");
 }
 
-const ModelsWithRawResponse& Models::with_raw_response() const {
-  return static_cast<const ModelsWithRawResponse&>(*this);
+httplib::Response ModelsWithRawResponse::retrieve(const std::string& model) const {
+  return retrieve_raw(model);
 }
 
-Model Models::retrieve(const std::string& model) const {
-  return nlohmann::json::parse(with_raw_response().retrieve(model).body).get<Model>();
-}
-
-std::vector<Model> Models::list() const {
-  return nlohmann::json::parse(with_raw_response().list().body)["data"].get<std::vector<Model>>();
+httplib::Response ModelsWithRawResponse::list() const {
+  return list_raw();
 }
 
 }

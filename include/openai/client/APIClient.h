@@ -21,8 +21,4 @@ private:
   httplib::Response request(const FinalRequestOptions& options) const;
 };
 
-class AsyncAPIClient : public BaseClient
-{
-};
-
 }

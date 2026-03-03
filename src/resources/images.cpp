@@ -3,19 +3,23 @@
 namespace openai
 {
 
-httplib::Response ImagesWithRawResponse::generate(const ImagesGenerateOpts& opts) const {
-  return Post("/images/generations", opts.validate_and_serialize());
-}
-
-const ImagesWithRawResponse& Images::with_raw_response() const {
-  return static_cast<const ImagesWithRawResponse&>(*this);
+ImagesWithRawResponse Images::with_raw_response() const {
+  return ImagesWithRawResponse(*this);
 }
 
 ImagesResponse Images::generate(const ImagesGenerateOpts& opts) const {
-  return nlohmann::json::parse(with_raw_response().generate(opts).body).get<ImagesResponse>();
+  return nlohmann::json::parse(generate_raw(opts).body).get<ImagesResponse>();
 }
 
-std::string ImagesWithRawResponse::ImagesGenerateOpts::validate_and_serialize() const {
+httplib::Response Images::generate_raw(const ImagesGenerateOpts& opts) const {
+  return Post("/images/generations", opts.validate_and_serialize());
+}
+
+httplib::Response ImagesWithRawResponse::generate(const ImagesGenerateOpts& opts) const {
+  return generate_raw(opts);
+}
+
+std::string Images::ImagesGenerateOpts::validate_and_serialize() const {
   nlohmann::json j;
 
   j["prompt"] = prompt;
@@ -52,6 +56,10 @@ std::string ImagesWithRawResponse::ImagesGenerateOpts::validate_and_serialize() 
     assert(size == "auto" || size == "1024x1024" || size == "1536x1024" || size == "1024x1536" || size == "256x256"
       || size == "512x512" || size == "1792x1024" || size == "1024x1792");
     j["size"] = size;
+  }
+  if (!style.empty()) {
+    assert(style == "vivid" || style == "natural");
+    j["style"] = style;
   }
 
   return j.dump();

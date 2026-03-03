@@ -5,31 +5,35 @@
 namespace openai
 {
 
-class ModerationsWithRawResponse : public SyncAPIResource
+class Moderations;
+class ModerationsWithRawResponse;
+
+class Moderations : SyncAPIResource
 {
 public:
-  explicit ModerationsWithRawResponse(SyncAPIClient& client) : SyncAPIResource(client) {}
+  explicit Moderations(const SyncAPIClient& client) : SyncAPIResource(client) {}
+
+  ModerationsWithRawResponse with_raw_response() const;
 
   struct ModerationsCreateOpts;
-  httplib::Response create(const ModerationsCreateOpts& opts) const;
-
-  struct ModerationsCreateOpts
-  {
-    std::string input;
-    std::string model;
-
-    std::string validate_and_serialize() const;
-  };
+  ModerationCreateResponse create(const ModerationsCreateOpts& opts) const;
+  httplib::Response create_raw(const ModerationsCreateOpts& opts) const;
 };
 
-class Moderations : ModerationsWithRawResponse
+class ModerationsWithRawResponse : Moderations
 {
 public:
-  explicit Moderations(SyncAPIClient& client) : ModerationsWithRawResponse(client) {}
+  explicit ModerationsWithRawResponse(const Moderations& moderations) : Moderations(moderations) {}
 
-  const ModerationsWithRawResponse& with_raw_response() const;
+  httplib::Response create(const ModerationsCreateOpts& opts) const;
+};
 
-  ModerationCreateResponse create(const ModerationsCreateOpts& opts) const;
+struct Moderations::ModerationsCreateOpts
+{
+  std::string input;
+  std::string model;
+
+  std::string validate_and_serialize() const;
 };
 
 }
