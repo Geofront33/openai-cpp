@@ -58,6 +58,13 @@ const Embeddings& OpenAI::embeddings() {
   return *embeddings_;
 }
 
+const Files& OpenAI::files() {
+  std::call_once(f_files, [this] {
+    files_ = std::make_unique<Files>(*this);
+  });
+  return *files_;
+}
+
 const Images& OpenAI::images() {
   std::call_once(f_images, [this] {
     images_ = std::make_unique<Images>(*this);
@@ -88,6 +95,13 @@ const EmbeddingsWithRawResponse& OpenAIWithRawResponse::embeddings() {
     embeddings_ = std::make_unique<EmbeddingsWithRawResponse>(client.embeddings());
   });
   return *embeddings_;
+}
+
+const FilesWithRawResponse& OpenAIWithRawResponse::files() {
+  std::call_once(f_files, [this] {
+    files_ = std::make_unique<FilesWithRawResponse>(client.files());
+  });
+  return *files_;
 }
 
 const ImagesWithRawResponse& OpenAIWithRawResponse::images() {

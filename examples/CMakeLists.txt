@@ -1,4 +1,5 @@
 add_subdirectory(embeddings)
+add_subdirectory(files)
 add_subdirectory(images)
 add_subdirectory(models)
 add_subdirectory(moderations)

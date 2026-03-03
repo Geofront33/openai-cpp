@@ -40,6 +40,8 @@ struct Moderation
     std::vector<std::string> sexual_minors;
     std::vector<std::string> violence;
     std::vector<std::string> violence_graphic;
+
+    std::string to_string() const;
   };
 
   struct CategoryScores
@@ -57,12 +59,16 @@ struct Moderation
     float sexual_minors;
     float violence;
     float violence_graphic;
+
+    std::string to_string() const;
   };
 
   Categories categories;
   std::optional<CategoryAppliedInputTypes> category_applied_input_types;
   CategoryScores category_scores;
   bool flagged;
+
+  std::string to_string() const;
 };
 
 void from_json(const nlohmann::json& j, Moderation::Categories& x);

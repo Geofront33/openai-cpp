@@ -1,5 +1,6 @@
 #pragma once
 #include <openai/resources/embeddings.h>
+#include <openai/resources/files.h>
 #include <openai/resources/images.h>
 #include <openai/resources/models.h>
 #include <openai/resources/moderations.h>
@@ -18,6 +19,7 @@ public:
   explicit OpenAI(const OpenAIClientOpts& opts);
 
   const Embeddings& embeddings();
+  const Files& files();
   const Images& images();
   const Moderations& moderations();
   const Models& models();
@@ -27,6 +29,8 @@ public:
 private:
   std::once_flag f_embeddings;
   std::unique_ptr<Embeddings> embeddings_;
+  std::once_flag f_files;
+  std::unique_ptr<Files> files_;
   std::once_flag f_images;
   std::unique_ptr<Images> images_;
   std::once_flag f_moderations;
@@ -51,6 +55,7 @@ public:
   explicit OpenAIWithRawResponse(OpenAI& client) : client{client} {}
 
   const EmbeddingsWithRawResponse& embeddings();
+  const FilesWithRawResponse& files();
   const ImagesWithRawResponse& images();
   const ModerationsWithRawResponse& moderations();
   const ModelsWithRawResponse& models();
@@ -60,6 +65,8 @@ private:
 
   std::once_flag f_embeddings;
   std::unique_ptr<EmbeddingsWithRawResponse> embeddings_;
+  std::once_flag f_files;
+  std::unique_ptr<FilesWithRawResponse> files_;
   std::once_flag f_images;
   std::unique_ptr<ImagesWithRawResponse> images_;
   std::once_flag f_moderations;

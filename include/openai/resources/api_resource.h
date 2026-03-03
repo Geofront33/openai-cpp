@@ -23,8 +23,8 @@ public:
   void Put() const {
     client.Put();
   }
-  void Delete() const {
-    client.Delete();
+  httplib::Response Delete(const std::string& path) const {
+    return client.Delete(path);
   }
   httplib::Response GetAPIList(const std::string& path) const {
     return client.GetAPIList(path);

@@ -6,12 +6,17 @@ namespace openai
 
 std::string Moderation::Categories::to_string() const {
   std::ostringstream oss;
-  oss << "Categories(harassment=" << harassment;
+  oss << "Categories" << "(";
+  oss << "harassment=" << harassment;
   oss << ", harassment/threatening=" << harassment_threatening;
   oss << ", hate=" << hate;
   oss << ", hate/threatening=" << hate_threatening;
-  if (illicit) oss << ", illicit=" << *illicit;
-  if (illicit_violent) oss << ", illicit/violent=" << *illicit_violent;
+  if (illicit) {
+    oss << ", illicit=" << *illicit;
+  }
+  if (illicit_violent) {
+    oss << ", illicit/violent=" << *illicit_violent;
+  }
   oss << ", self-harm=" << self_harm;
   oss << ", self-harm/instructions=" << self_harm_instructions;
   oss << ", self-harm/intent=" << self_harm_intent;
@@ -39,6 +44,26 @@ void from_json(const nlohmann::json& j, Moderation::Categories& x) {
   j.at("violence/graphic").get_to(x.violence_graphic);
 }
 
+std::string Moderation::CategoryAppliedInputTypes::to_string() const {
+  std::ostringstream oss;
+  oss << "CategoryAppliedInputTypes" << "(";
+  oss << "harassment=" << vec2str(harassment);
+  oss << ", harassment/threatening=" << vec2str(harassment_threatening);
+  oss << ", hate=" << vec2str(hate);
+  oss << ", hate/threatening=" << vec2str(hate_threatening);
+  oss << ", illicit=" << vec2str(illicit);
+  oss << ", illicit/violent=" << vec2str(illicit_violent);
+  oss << ", self-harm=" << vec2str(self_harm);
+  oss << ", self-harm/instructions=" << vec2str(self_harm_instructions);
+  oss << ", self-harm/intent=" << vec2str(self_harm_intent);
+  oss << ", sexual=" << vec2str(sexual);
+  oss << ", sexual/minors=" << vec2str(sexual_minors);
+  oss << ", violence=" << vec2str(violence);
+  oss << ", violence/graphic=" << vec2str(violence_graphic);
+  oss << ")";
+  return oss.str();
+}
+
 void from_json(const nlohmann::json& j, Moderation::CategoryAppliedInputTypes& x) {
   j.at("harassment").get_to(x.harassment);
   j.at("harassment/threatening").get_to(x.harassment_threatening);
@@ -55,6 +80,26 @@ void from_json(const nlohmann::json& j, Moderation::CategoryAppliedInputTypes& x
   j.at("violence/graphic").get_to(x.violence_graphic);
 }
 
+std::string Moderation::CategoryScores::to_string() const {
+  std::ostringstream oss;
+  oss << "CategoryScores" << "(";
+  oss << "harassment=" << harassment;
+  oss << ", harassment/threatening=" << harassment_threatening;
+  oss << ", hate=" << hate;
+  oss << ", hate/threatening=" << hate_threatening;
+  oss << ", illicit=" << illicit;
+  oss << ", illicit/violent=" << illicit_violent;
+  oss << ", self-harm=" << self_harm;
+  oss << ", self-harm/instructions=" << self_harm_instructions;
+  oss << ", self-harm/intent=" << self_harm_intent;
+  oss << ", sexual=" << sexual;
+  oss << ", sexual/minors=" << sexual_minors;
+  oss << ", violence=" << violence;
+  oss << ", violence/graphic=" << violence_graphic;
+  oss << ")";
+  return oss.str();
+}
+
 void from_json(const nlohmann::json& j, Moderation::CategoryScores& x) {
   j.at("harassment").get_to(x.harassment);
   j.at("harassment/threatening").get_to(x.harassment_threatening);
@@ -69,6 +114,19 @@ void from_json(const nlohmann::json& j, Moderation::CategoryScores& x) {
   j.at("sexual/minors").get_to(x.sexual_minors);
   j.at("violence").get_to(x.violence);
   j.at("violence/graphic").get_to(x.violence_graphic);
+}
+
+std::string Moderation::to_string() const {
+  std::ostringstream oss;
+  oss << "Moderation" << "(";
+  oss << "categories=" << categories.to_string();
+  if (category_applied_input_types) {
+    oss << ", category_applied_input_types=" << category_applied_input_types->to_string();
+  }
+  oss << ", category_scores=" << category_scores.to_string();
+  oss << ", flagged=" << flagged;
+  oss << ")";
+  return oss.str();
 }
 
 void from_json(const nlohmann::json& j, Moderation& x) {

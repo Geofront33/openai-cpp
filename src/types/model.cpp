@@ -6,7 +6,12 @@ namespace openai
 
 std::string Model::to_string() const {
   std::ostringstream oss;
-  oss << "Model(id='" << id << "', created=" << created << ", object='" << object << "', owned_by=" << owned_by << ")";
+  oss << "Model" << "(";
+  oss << "id='" << id << "'";
+  oss << ", created=" << created;
+  oss << ", object='" << object << "'";
+  oss << ", owned_by=" << owned_by;
+  oss << ")";
   return oss.str();
 }
 

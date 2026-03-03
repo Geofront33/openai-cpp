@@ -7,7 +7,7 @@ int main() {
   const auto res = client.moderations().create({
     .input = "I want to kill them."
   });
-  std::cout << res.results[0].categories.to_string() << std::endl;
+  std::cout << res.results[0].to_string() << std::endl;
 
   return 0;
 }

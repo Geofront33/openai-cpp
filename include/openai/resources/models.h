@@ -28,7 +28,6 @@ public:
   explicit ModelsWithRawResponse(const Models& models) : Models(models) {}
 
   httplib::Response retrieve(const std::string& model) const;
-
   httplib::Response list() const;
 };
 

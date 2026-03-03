@@ -19,6 +19,13 @@ httplib::Response SyncAPIClient::Post(const std::string& path, const std::string
   return request(opts);
 }
 
+httplib::Response SyncAPIClient::Delete(const std::string& path) const {
+  FinalRequestOptions opts;
+  opts.method = "DELETE";
+  opts.url = path;
+  return request(opts);
+}
+
 httplib::Response SyncAPIClient::GetAPIList(const std::string& path) const {
   FinalRequestOptions opts;
   opts.method = "GET";

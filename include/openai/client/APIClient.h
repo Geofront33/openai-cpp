@@ -12,7 +12,7 @@ public:
   httplib::Response Post(const std::string& path, const std::string& body) const;
   void Patch() const {}
   void Put() const {}
-  void Delete() const {}
+  httplib::Response Delete(const std::string& path) const;
   httplib::Response GetAPIList(const std::string& path) const;
 
   std::unique_ptr<httplib::SSLClient> client;

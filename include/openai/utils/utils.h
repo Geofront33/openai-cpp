@@ -55,7 +55,11 @@ std::string vec2str(const std::vector<T>& v) {
   oss << "[";
   auto sep = "";
   for (const auto& i : v) {
-    oss << sep << i;
+    if constexpr (std::is_same_v<T, std::string>) {
+      oss << sep << "'" << i << "'";
+    } else {
+      oss << sep << i;
+    }
     sep = ", ";
   }
   oss << "]";

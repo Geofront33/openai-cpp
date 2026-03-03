@@ -6,8 +6,11 @@ namespace openai
 
 std::string Embedding::to_string() const {
   std::ostringstream oss;
-  oss << "Embedding(embedding=";
-  oss << vec2str(embedding) << ", index=" << index << ", object='" << object << "')";
+  oss << "Embedding" << "(";
+  oss << "embedding=" << vec2str(embedding);
+  oss << ", index=" << index;
+  oss << ", object='" << object << "'";
+  oss << ")";
   return oss.str();
 }
 
