@@ -10,6 +10,7 @@ add_library(openai-cpp STATIC
     resources/images.cpp
     resources/models.cpp
     resources/moderations.cpp
+    resources/responses/responses.cpp
 
     types/embedding.cpp
     types/embedding_create_response.cpp

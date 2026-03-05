@@ -86,6 +86,13 @@ const Models& OpenAI::models() {
   return *models_;
 }
 
+const Responses& OpenAI::responses() {
+  std::call_once(f_responses, [this] {
+    responses_ = std::make_unique<Responses>(*this);
+  });
+  return *responses_;
+}
+
 OpenAIWithRawResponse OpenAI::with_raw_response() {
   return OpenAIWithRawResponse(*this);
 }

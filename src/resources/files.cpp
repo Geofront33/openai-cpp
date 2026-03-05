@@ -38,6 +38,17 @@ httplib::Response Files::remove_raw(const std::string& file_id) const {
   return Delete("/files/" + file_id);
 }
 
+httplib::Response Files::content(const std::string& file_id) const {
+  return content_raw(file_id);
+}
+
+httplib::Response Files::content_raw(const std::string& file_id) const {
+  if (file_id.empty()) {
+    throw OpenAIError("Expected a non-empty value for `file_id`");
+  }
+  return Get("/files/" + file_id + "/content");
+}
+
 httplib::Response FilesWithRawResponse::list() const {
   return list_raw();
 }
@@ -48,6 +59,10 @@ httplib::Response FilesWithRawResponse::retrieve(const std::string& file_id) con
 
 httplib::Response FilesWithRawResponse::remove(const std::string& file_id) const {
   return remove_raw(file_id);
+}
+
+httplib::Response FilesWithRawResponse::content(const std::string& file_id) const {
+  return content_raw(file_id);
 }
 
 }
