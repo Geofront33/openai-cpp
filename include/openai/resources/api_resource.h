@@ -14,8 +14,17 @@ public:
   httplib::Response Get(const std::string& path) const {
     return client.Get(path);
   }
+  httplib::Response Get(const std::string& path, const httplib::Params& params) const {
+    return client.Get(path, params);
+  }
   httplib::Response Post(const std::string& path, const std::string& body) const {
     return client.Post(path, body);
+  }
+  httplib::Response PostMultipart(
+    const std::string& path,
+    const httplib::MultipartFormDataItems& multipart_form_data
+  ) const {
+    return client.PostMultipart(path, multipart_form_data);
   }
   void Patch() const {
     client.Patch();
@@ -28,6 +37,9 @@ public:
   }
   httplib::Response GetAPIList(const std::string& path) const {
     return client.GetAPIList(path);
+  }
+  httplib::Response GetAPIList(const std::string& path, const httplib::Params& params) const {
+    return client.GetAPIList(path, params);
   }
 };
 

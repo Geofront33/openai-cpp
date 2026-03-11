@@ -1,4 +1,5 @@
 #include <openai/resources/moderations.h>
+#include <openai/utils/OpenAIError.h>
 
 namespace openai
 {
@@ -22,8 +23,20 @@ httplib::Response ModerationsWithRawResponse::create(const ModerationsCreateOpts
 std::string Moderations::ModerationsCreateOpts::validate_and_serialize() const {
   nlohmann::json j;
 
-  assert(!input.empty());
-  j["input"] = input;
+  if (const auto* s = std::get_if<std::string>(&input)) {
+    if (s->empty()) {
+      throw OpenAIError("Expected a non-empty value for `input`");
+    }
+    j["input"] = *s;
+  } else if (const auto* a = std::get_if<std::vector<std::string>>(&input)) {
+    if (a->empty()) {
+      throw OpenAIError("Expected a non-empty value for `input`");
+    }
+    j["input"] = *a;
+  } else {
+    throw OpenAIError("Expected `input` to be either string or array of strings");
+  }
+
   if (!model.empty()) {
     j["model"] = model;
   }

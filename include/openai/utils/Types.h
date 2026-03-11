@@ -13,7 +13,7 @@ struct FinalRequestOptions
   int max_retries;
   float timeout;
   std::string json_data;
+  httplib::MultipartFormDataItems multipart_form_data;
 };
 
 }
-

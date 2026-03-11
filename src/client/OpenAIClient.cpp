@@ -40,12 +40,18 @@ OpenAI::OpenAI(const OpenAIClientOpts& opts) {
   websocket_base_url = opts.websocket_base_url;
 
   if(opts.base_url.empty()) {
-    base_url = getenv_or_empty("OPENAI_BASE_URL");
-    if(!base_url) {
+    const auto env_base_url = getenv_or_empty("OPENAI_BASE_URL");
+    if(env_base_url.empty()) {
       base_url = "https://api.openai.com/v1";
+    } else {
+      base_url = env_base_url;
     }
   } else {
     base_url = opts.base_url;
+  }
+
+  if(base_url.host.empty()) {
+    throw OpenAIError("Invalid base_url: host is empty");
   }
 
   client = std::make_unique<httplib::SSLClient>(base_url.host, base_url.port);

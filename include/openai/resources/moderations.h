@@ -30,7 +30,7 @@ public:
 
 struct Moderations::ModerationsCreateOpts
 {
-  std::string input;
+  std::variant<std::string, std::vector<std::string>> input;
   std::string model;
 
   std::string validate_and_serialize() const;

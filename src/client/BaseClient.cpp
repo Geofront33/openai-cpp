@@ -1,10 +1,14 @@
 #include <openai/client/BaseClient.h>
+#include <chrono>
 
 namespace openai
 {
 
 httplib::Headers BaseClient::build_headers(const FinalRequestOptions& options, int retries_taken) const {
   auto res = default_headers();
+  for (const auto& [k, v] : options.headers) {
+    res[k] = v;
+  }
   return {res.begin(), res.end()};
 }
 
@@ -17,17 +21,33 @@ std::string BaseClient::prepare_url(const std::string& url) const {
 
 httplib::Request BaseClient::build_request(const FinalRequestOptions& options, const int retries_taken) const {
   auto headers = build_headers(options, retries_taken);
-  if (options.method != "GET") {
-    // todo
-  } else {
+  if (options.method == "GET" || options.method == "DELETE") {
     headers.erase("Content-Type");
   }
-  return {
-    .method = options.method,
-    .path = prepare_url(options.url),
-    .headers = std::move(headers),
-    .body = options.json_data,
-  };
+
+  httplib::Request request;
+  request.method = options.method;
+  request.path = prepare_url(options.url);
+  request.headers = std::move(headers);
+
+  for (const auto& [k, v] : custom_query) {
+    request.params.emplace(k, v);
+  }
+  for (const auto& [k, v] : options.params) {
+    request.params.emplace(k, v);
+  }
+
+  if (!options.multipart_form_data.empty()) {
+    const auto boundary = "openai_cpp_boundary_"
+      + std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+    request.body = httplib::detail::serialize_multipart_formdata(options.multipart_form_data, boundary);
+    request.headers.erase("Content-Type");
+    request.headers.emplace("Content-Type", httplib::detail::serialize_multipart_formdata_get_content_type(boundary));
+  } else if (options.method != "GET" && options.method != "DELETE") {
+    request.body = options.json_data;
+  }
+
+  return request;
 }
 
 std::map<std::string, std::string> BaseClient::auth_headers() const {
