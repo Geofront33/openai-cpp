@@ -4,6 +4,7 @@
 #include <openai/resources/images.h>
 #include <openai/resources/models.h>
 #include <openai/resources/moderations.h>
+#include <openai/resources/responses/responses.h>
 
 namespace openai
 {
@@ -23,6 +24,7 @@ public:
   const Images& images();
   const Moderations& moderations();
   const Models& models();
+  const Responses& responses();
 
   OpenAIWithRawResponse with_raw_response();
 
@@ -37,6 +39,8 @@ private:
   std::unique_ptr<Moderations> moderations_;
   std::once_flag f_models;
   std::unique_ptr<Models> models_;
+  std::once_flag f_responses;
+  std::unique_ptr<Responses> responses_;
 };
 
 struct OpenAI::OpenAIClientOpts

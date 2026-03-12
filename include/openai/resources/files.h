@@ -26,6 +26,9 @@ public:
 
   FileDeleted remove(const std::string& file_id) const;
   httplib::Response remove_raw(const std::string& file_id) const;
+
+  httplib::Response content(const std::string& file_id) const;
+  httplib::Response content_raw(const std::string& file_id) const;
 };
 
 class FilesWithRawResponse : Files
@@ -36,6 +39,7 @@ public:
   httplib::Response list() const;
   httplib::Response retrieve(const std::string& file_id) const;
   httplib::Response remove(const std::string& file_id) const;
+  httplib::Response content(const std::string& file_id) const;
 };
 
 }
