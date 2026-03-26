@@ -48,7 +48,11 @@ OpenAI::OpenAI(const OpenAIClientOpts& opts) {
     base_url = opts.base_url;
   }
 
-  client = std::make_unique<httplib::SSLClient>(base_url.host, base_url.port);
+  if (base_url.schema == "https") {
+    client = std::make_unique<httplib::SSLClient>(base_url.host, base_url.port);
+  } else {
+    client = std::make_unique<httplib::ClientImpl>(base_url.host, base_url.port);
+  }
 }
 
 const Embeddings& OpenAI::embeddings() {

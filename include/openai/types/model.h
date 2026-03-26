@@ -7,7 +7,7 @@ namespace openai
 struct Model
 {
   std::string id;
-  int created;
+  std::optional<int> created;
   std::string object;
   std::string owned_by;
 

@@ -5,6 +5,7 @@ namespace openai
 {
 
 std::string Embedding::to_string() const {
+  assert(object == "embedding");
   std::ostringstream oss;
   oss << "Embedding" << "(";
   oss << "embedding=" << vec2str(embedding);

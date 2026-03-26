@@ -15,7 +15,7 @@ public:
   httplib::Response Delete(const std::string& path) const;
   httplib::Response GetAPIList(const std::string& path) const;
 
-  std::unique_ptr<httplib::SSLClient> client;
+  std::unique_ptr<httplib::ClientImpl> client;
 
 private:
   httplib::Response request(const FinalRequestOptions& options) const;
