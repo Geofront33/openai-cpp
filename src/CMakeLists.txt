@@ -6,21 +6,12 @@ add_library(openai-cpp STATIC
     client/OpenAIClient.cpp
 
     resources/embeddings.cpp
-    resources/files.cpp
-    resources/images.cpp
     resources/models.cpp
-    resources/moderations.cpp
     resources/responses/responses.cpp
 
     types/embedding.cpp
     types/embedding_create_response.cpp
-    types/file_deleted.cpp
-    types/file_object.cpp
-    types/image.cpp
-    types/images_response.cpp
     types/model.cpp
-    types/moderation.cpp
-    types/moderation_create_response.cpp
 )
 
 set_target_properties(openai-cpp PROPERTIES OUTPUT_NAME openai)

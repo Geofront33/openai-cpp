@@ -1,9 +1,6 @@
 #pragma once
 #include <openai/resources/embeddings.h>
-#include <openai/resources/files.h>
-#include <openai/resources/images.h>
 #include <openai/resources/models.h>
-#include <openai/resources/moderations.h>
 #include <openai/resources/responses/responses.h>
 
 namespace openai
@@ -20,9 +17,6 @@ public:
   explicit OpenAI(const OpenAIClientOpts& opts);
 
   const Embeddings& embeddings();
-  const Files& files();
-  const Images& images();
-  const Moderations& moderations();
   const Models& models();
   const Responses& responses();
 
@@ -31,14 +25,10 @@ public:
 private:
   std::once_flag f_embeddings;
   std::unique_ptr<Embeddings> embeddings_;
-  std::once_flag f_files;
-  std::unique_ptr<Files> files_;
-  std::once_flag f_images;
-  std::unique_ptr<Images> images_;
-  std::once_flag f_moderations;
-  std::unique_ptr<Moderations> moderations_;
+
   std::once_flag f_models;
   std::unique_ptr<Models> models_;
+
   std::once_flag f_responses;
   std::unique_ptr<Responses> responses_;
 };
@@ -59,24 +49,20 @@ public:
   explicit OpenAIWithRawResponse(OpenAI& client) : client{client} {}
 
   const EmbeddingsWithRawResponse& embeddings();
-  const FilesWithRawResponse& files();
-  const ImagesWithRawResponse& images();
-  const ModerationsWithRawResponse& moderations();
   const ModelsWithRawResponse& models();
+  const ResponsesWithRawResponse& responses();
 
 private:
   OpenAI& client;
 
   std::once_flag f_embeddings;
   std::unique_ptr<EmbeddingsWithRawResponse> embeddings_;
-  std::once_flag f_files;
-  std::unique_ptr<FilesWithRawResponse> files_;
-  std::once_flag f_images;
-  std::unique_ptr<ImagesWithRawResponse> images_;
-  std::once_flag f_moderations;
-  std::unique_ptr<ModerationsWithRawResponse> moderations_;
+
   std::once_flag f_models;
   std::unique_ptr<ModelsWithRawResponse> models_;
+
+  std::once_flag f_responses;
+  std::unique_ptr<ResponsesWithRawResponse> responses_;
 };
 
 }
